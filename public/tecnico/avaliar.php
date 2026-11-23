@@ -39,7 +39,7 @@ if (isset($_POST['acao']) && $_POST['acao'] === 'atualizar_estado') {
             
             $up = $pdo->prepare("UPDATE candidaturas SET estado = ? WHERE id = ?");
             $up->execute([$novo_estado, $id]);
-
+            //historico de alteracoes de estado
             $aud = $pdo->prepare("INSERT INTO historico_estados (candidatura_id, tecnico_id, estado_anterior, estado_novo) VALUES (?, ?, ?, ?)");
             $aud->execute([$id, $tecnico_id, $estado_anterior, $novo_estado]);
 

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../config/db.php';
+//controlo de acesso por perfil
 check_auth('tecnico');
 require_once __DIR__ . '/../../includes/header.php';
 
@@ -17,6 +18,8 @@ $sql = "
     JOIN users u ON c.user_id = u.id
     WHERE c.tecnico_id = ?
 ";
+
+//tecnico so ve candidaturas atribuidas a ele linha 19
 $params = [$tecnico_id];
 
 if ($filtro_candidato !== '') {

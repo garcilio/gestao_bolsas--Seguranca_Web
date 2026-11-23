@@ -23,6 +23,7 @@ $sucesso = '';
 
 if (isset($_POST['acao']) && $_POST['acao'] === 'cancelar') {
     verify_csrf();
+    //bloqueio de cancelar depois de estar submetida
     if ($cand['estado'] !== 'submetida') {
         $erro = "Não pode cancelar uma candidatura que já entrou em análise.";
     } else {
@@ -36,6 +37,7 @@ if (isset($_POST['acao']) && $_POST['acao'] === 'cancelar') {
 if (isset($_POST['acao']) && $_POST['acao'] === 'editar') {
     verify_csrf();
     if ($cand['estado'] !== 'submetida') {
+        //bloqueio de edição após entrar em análise
         $erro = "Não pode editar uma candidatura já em análise.";
     } else {
         $inst = trim($_POST['instituicao'] ?? '');
@@ -64,6 +66,7 @@ if (isset($_POST['acao']) && $_POST['acao'] === 'responder_esclarecimento') {
 
             if (isset($_FILES['documento_extra']) && $_FILES['documento_extra']['error'] === UPLOAD_ERR_OK) {
                 $file = $_FILES['documento_extra'];
+                //upload seguro, validacao pdf
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime = finfo_file($finfo, $file['tmp_name']);
 

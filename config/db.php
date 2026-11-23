@@ -24,12 +24,14 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $db_user, $db_pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        //sql injection
         PDO::ATTR_EMULATE_PREPARES => false
     ]);
 } catch (PDOException $e) {
     die("Erro de ligação à base de dados. Contacte o administrador.");
 }
 
+//protecao csrf nos formularios
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -41,6 +43,7 @@ function verify_csrf() {
 }
 
 function sanitize($data) {
+    //stored xss
     return htmlspecialchars($data ?? '', ENT_QUOTES, 'UTF-8');
 }
 

@@ -13,10 +13,12 @@ if (!$bolsa) {
     die("Bolsa não encontrada.");
 }
 
+//bloqueio de candidaturas expiradas
 if (strtotime($bolsa['prazo']) < strtotime(date('Y-m-d'))) {
     die("O prazo de candidatura para esta bolsa já expirou.");
 }
 
+//bloqueio de candidaturas duplicadas à mesma bolsa
 $chk = $pdo->prepare("SELECT id FROM candidaturas WHERE user_id = ? AND bolsa_id = ?");
 $chk->execute([$user_id, $bolsa_id]);
 if ($chk->fetch()) {
@@ -46,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($mime !== 'application/pdf') {
             $erro = "Apenas ficheiros PDF são autorizados.";
+            //tamanho dos pdfs
         } elseif ($file['size'] > 5 * 1024 * 1024) {
             $erro = "O ficheiro excede 5MB.";
         } else {
@@ -55,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $ins->execute([$user_id, $bolsa_id, $tecnico_atribuido, $instituicao, $curso, $rendimento, $iban]);
                 $candidatura_id = $pdo->lastInsertId();
 
+                //nome aleatorio para o pdf
                 $nome_aleatorio = bin2hex(random_bytes(16)) . '.pdf';
                 $caminho_destino = __DIR__ . '/../../storage/' . $nome_aleatorio;
 

@@ -19,11 +19,11 @@ $candidaturas = $stmt->fetchAll();
 <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2>As Minhas Candidaturas</h2>
-        <a href="/index.php" class="btn btn-primary">+ Nova Candidatura</a>
+        <a href="/gestao_bolsas/public/index.php" class="btn btn-primary">+ Nova Candidatura</a>
     </div>
     
     <?php if (empty($candidaturas)): ?>
-        <p style="margin-top: 1rem;">Ainda não submeteu qualquer candidatura. <a href="/index.php">Consulte as bolsas abertas</a>.</p>
+        <p style="margin-top: 1rem;">Ainda não submeteu qualquer candidatura. <a href="/gestao_bolsas/public/index.php">Consulte as bolsas abertas</a>.</p>
     <?php else: ?>
         <table>
             <thead>

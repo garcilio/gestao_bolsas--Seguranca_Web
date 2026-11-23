@@ -27,7 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($chk->fetch()) {
             $erro = "Nome de utilizador ou email já registado.";
         } else {
+            //passwords cifradas
             $hash = password_hash($password, PASSWORD_DEFAULT);
+            //bloqueio de registo de tecnicos na pagina publica
             $stmt = $pdo->prepare("INSERT INTO users (username, password_hash, role, nome, email, nif, telefone, morada) VALUES (?, ?, 'candidato', ?, ?, ?, ?, ?)");
             $stmt->execute([$username, $hash, $nome, $email, $nif, $telefone, $morada]);
             $sucesso = "Registo concluído com sucesso!";
